@@ -1,16 +1,24 @@
+import dotenv from 'dotenv';
 import express from 'express';
 import { Server } from "socket.io";
-import handlebars from "express-handlebars";
+import handlebars from "express-handlebars"// Importa express-handlebars
 import mongoose from 'mongoose';
-import dotenv from 'dotenv'; // Importa dotenv para cargar las variables de entorno
+
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
 import cartsRoutes from './routes/carts.routes.js';
 import messageRoutes from './routes/message.routes.js';
 
-dotenv.config(); // Carga las variables de entorno del archivo .env
 
+
+dotenv.config();
 const app = express();
 const PORT = 8080;
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 
 mongoose.connect(process.env.MONGO, {
     useNewUrlParser: true,
@@ -22,7 +30,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
 
-app.engine('handlebars', handlebars());
+// Utiliza exphbs() como la función de configuración de Handlebars
+app.engine('handlebars', handlebars.engine());
 app.set('views', __dirname + '/views');
 app.set('view engine', 'handlebars');
 
