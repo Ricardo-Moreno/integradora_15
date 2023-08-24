@@ -3,8 +3,9 @@ import ProductsManager from "../dao/productsManager.js";
 
 
 const router = Router();
-
 const productsManager = new ProductsManager();
+
+
 
 router.get("/", async (req, res) => {
     const products = await productsManager.getAllProducts();
@@ -21,7 +22,7 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
     const bodyProduct = req.body;
     console.log(
-        "🚀 ~ file: players.routes.js:28 ~ router.post ~ bodyProducts:",
+        "🚀 ~ file: products.routes.js:28 ~ router.post ~ bodyProducts:",
         bodyProduct
     );
     const newProduct = await productsManager.createproduct(bodyProduct);
@@ -34,7 +35,7 @@ router.put("/:id", async (req, res) => {
     const bodyProduct = req.body;
 
     const pUpdated = await productsManager.updateProduct(id, bodyProduct);
-    res.json({ message: "get all method" });
+    res.json({ message: "get all method", pUpdated });
 });
 
 router.delete("/:id", async (req, res) => {

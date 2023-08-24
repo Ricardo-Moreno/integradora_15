@@ -7,66 +7,81 @@ class CartsManager {
         this.carts = carts;
     }
 
-    async getAllPlayers() {
+    async getAllCarts() {
         try {
-            const players = await this.carts.find({});
+            const carts = await this.carts.find({});
 
-            return players;
+            return carts;
         } catch (error) {
             console.log(
-                "🚀 ~ file: players.manager.js:18 ~ PlayerManager ~ getAllPlayers ~ error:",
+                "🚀 ~ file: carts.manager.js:18 ~ CartsManager ~ getAllCarts ~ error:",
                 error
             );
         }
     }
 
-    async getPlayerById(id) {
+    async getCartById(id) {
         try {
-            const playerData = await this.carts.findOne({ _id: id });
+            const cartsData = await this.carts.findOne({ _id: id });
             // TODO: VALIADR SI EL JUGADOR BUSCADO EXISTE O NO
 
-            return playerData;
+            return cartsData;
         } catch (error) {
             console.log(
-                "🚀 ~ file: players.manager.js:30 ~ PlayerManager ~ getPlayerById ~ error:",
+                "🚀 ~ file: carts.manager.js:30 ~ cartsManager ~ getcartsById ~ error:",
                 error
             );
         }
     }
 
-    async createPlayer(bodyPlayer) {
+    async createCart() {
         try {
+            const newCart = [];
+            const newCarts = await this.carts.create(newCart);
 
-            const newPlayer = await this.carts.create(bodyPlayer);
-
-            return newPlayer;
+            return newCarts;
         } catch (error) {
             console.log(
-                "🚀 ~ file: players.manager.js:40 ~ PlayerManager ~ createPlayer ~ error:",
+                "🚀 ~ file: carts.manager.js:40 ~ CartsManager ~ createCart ~ error:",
                 error
             );
         }
     }
 
-    async updatePlayer(id, updateBodyPlayer) {
-        try {
-            const updatedPlayer = await this.carts.updateOne({ _id: id }, updateBodyPlayer)
-            // TODO: PROBAR MANDANDO 1 SOLO CAMPO DEL JUGADOR, VER Q PASA Y CORREGUIRLO
 
-            return updatedPlayer
+    async addProduct(cartId, productId) {
+        try {
+            const cart = await this.carts.findOne({ id: cartId });
+
+            const existingProductIndex = cart.products.findIndex(product => product.product === productId);
+
+            if (existingProductIndex !== -1) {
+                cart.products[existingProductIndex].quantity += 1;
+            } else {
+                cart.products.push({
+                    product: productId,
+                    quantity: 1
+                });
+            }
+
+            const updatedCart = await cart.save();
+            return updatedCart;
         } catch (error) {
             console.log(
-                "🚀 ~ file: players.manager.js:47 ~ PlayerManager ~ updatePlayer ~ error:",
+                "🚀 ~ file: carts.manager.js:xx ~ CartsManager ~ addProduct ~ error:",
                 error
             );
         }
     }
 
-    async deletePlayerById(id) {
-        try {
-            const playerDeleted = this.carts.deleteOne({ _id: id });
 
-            return playerDeleted;
+
+
+    async deleteCartById(id) {
+        try {
+            const cartDeleted = this.carts.deleteOne({ _id: id });
+
+            return cartDeleted;
         } catch (error) {
             console.log(
                 "🚀 ~ file: players.manager.js:57 ~ PlayerManager ~ deletePlayerById ~ error:",
@@ -77,6 +92,13 @@ class CartsManager {
 }
 
 export default CartsManager;
+
+
+
+
+
+
+
 
 
 

@@ -3,38 +3,38 @@ import CartsManager from "../dao/cartsManager.js";
 
 
 const router = Router();
-
 const cartsManager = new CartsManager();
 
 router.get("/", async (req, res) => {
-    const players = await cartsManager.getAllPlayers();
+    const carts = await cartsManager.getAllCarts();
 
-    res.json({ message: "get all method", players });
+    res.json({ message: "get all method", carts });
 });
+
+
 
 router.get("/:id", async (req, res) => {
     const id = req.params.id;
-
-    res.json({ message: "get all method" });
+    const cartsById = await cartsManager.getCartById(id)
+    res.json({ message: "get all method", cartsById });
 });
 
 router.post("/", async (req, res) => {
-    const bodyPlayer = req.body;
     console.log(
-        "🚀 ~ file: players.routes.js:28 ~ router.post ~ bodyPlayer:",
-        bodyPlayer
+        "🚀 ~ file: Carts.routes.js:28 ~ router.post ~ bodCarts:",
+        bodCarts
     );
-    const newPlayer = await cartsManager.createPlayer(bodyPlayer);
+    const newCart = await cartsManager.createCart();
 
-    res.json({ message: "get all method", player: newPlayer });
+    res.json({ message: "get all method", player: newCart });
 });
 
-router.put("/:id", async (req, res) => {
-    const { id } = req.params;
-    const bodyPlayer = req.body;
+router.post("/:cid/products/:pid", async (req, res) => {
+    const id = parseInt(req.params.cid);
+    const productId = parseInt(req.params.pid);
 
-    const pUpdated = await cartsManager.updatePlayer(id, bodyPlayer);
-    res.json({ message: "get all method" });
+    const productUpdated = await cartsManager.addProduct(id, productId);
+    res.json({ message: "get all method", productUpdated });
 });
 
 router.delete("/:id", async (req, res) => {
@@ -45,3 +45,14 @@ router.delete("/:id", async (req, res) => {
 });
 
 export default router;
+
+
+
+
+
+
+
+
+
+
+
