@@ -7,69 +7,69 @@ class productsManager {
         this.products = products;
     }
 
-    async getAllPlayers() {
+    async getAllProducts() {
         try {
-            const players = await this.products.find({});
+            const products = await this.products.find({});
 
-            return players;
+            return products;
         } catch (error) {
             console.log(
-                "🚀 ~ file: players.manager.js:18 ~ PlayerManager ~ getAllPlayers ~ error:",
+                "🚀 ~ file: products.manager.js:18 ~ ProductManager ~ getAllProducts ~ error:",
                 error
             );
         }
     }
 
-    async getPlayerById(id) {
+    async getProductById(id) {
         try {
-            const playerData = await this.products.findOne({ _id: id });
+            const productData = await this.products.findOne({ _id: id });
             // TODO: VALIADR SI EL JUGADOR BUSCADO EXISTE O NO
 
-            return playerData;
+            return productData;
         } catch (error) {
             console.log(
-                "🚀 ~ file: players.manager.js:30 ~ PlayerManager ~ getPlayerById ~ error:",
+                "🚀 ~ file: products.manager.js:30 ~ ProductManager ~ getProductById ~ error:",
                 error
             );
         }
     }
 
-    async createPlayer(bodyPlayer) {
+    async createProduct(bodyProduct) {
         try {
 
-            const newPlayer = await this.products.create(bodyPlayer);
+            const newProduct = await this.products.create(bodyProduct);
 
-            return newPlayer;
+            return newProduct;
         } catch (error) {
             console.log(
-                "🚀 ~ file: players.manager.js:40 ~ PlayerManager ~ createPlayer ~ error:",
+                "🚀 ~ file: products.manager.js:40 ~ ProductManager ~ createProduct ~ error:",
                 error
             );
         }
     }
 
-    async updatePlayer(id, updateBodyPlayer) {
+    async updateProduct(id, updateBodyProduct) {
         try {
-            const updatedPlayer = await this.products.updateOne({ _id: id }, updateBodyPlayer)
+            const updatedProduct = await this.products.updateOne({ _id: id }, updateBodyProduct)
             // TODO: PROBAR MANDANDO 1 SOLO CAMPO DEL JUGADOR, VER Q PASA Y CORREGUIRLO
 
-            return updatedPlayer
+            return updatedProduct
         } catch (error) {
             console.log(
-                "🚀 ~ file: players.manager.js:47 ~ PlayerManager ~ updatePlayer ~ error:",
+                "🚀 ~ file: products.manager.js:47 ~ ProductManager ~ updateProduct ~ error:",
                 error
             );
         }
     }
 
-    async deletePlayerById(id) {
+    async deleteProductById(id) {
         try {
-            const playerDeleted = this.products.deleteOne({ _id: id });
+            const productDeleted = this.products.deleteOne({ _id: id });
 
-            return playerDeleted;
+            return productDeleted;
         } catch (error) {
             console.log(
-                "🚀 ~ file: players.manager.js:57 ~ PlayerManager ~ deletePlayerById ~ error:",
+                "🚀 ~ file: products.manager.js:57 ~ ProductManager ~ deleteProductById ~ error:",
                 error
             );
         }
@@ -77,3 +77,10 @@ class productsManager {
 }
 
 export default productsManager;
+
+
+
+
+
+
+

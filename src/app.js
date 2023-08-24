@@ -8,6 +8,7 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
 import cartsRoutes from './routes/carts.routes.js';
+import productsRoutes from './routes/products.routes.js';
 import messageRoutes from './routes/message.routes.js';
 
 
@@ -37,6 +38,7 @@ app.set('view engine', 'handlebars');
 
 app.use('/', messageRoutes);
 app.use('/carts', cartsRoutes);
+app.use('/products', productsRoutes);
 
 const server = app.listen(PORT, () => {
     console.log('Servidor Funcionando en el Puerto ' + PORT);
