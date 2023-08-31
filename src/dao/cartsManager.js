@@ -129,7 +129,8 @@ class CartsManager {
                 console.log("Cart not found");
                 return null;
             }
-            cart.products = cart.products.filter(product => product.product !== pid);
+            cart.products = cart.products.filter(product => product.product.toString() !== pid);
+            console.log(cart)
 
             // Guardar los cambios en la base de datos
             await cart.save();
@@ -151,7 +152,7 @@ class CartsManager {
                 throw new Error('Cart not found');
             }
 
-            const productIndex = cart.products.findIndex(product => product.product.toString() === pid);
+            const productIndex = cart.products.findIndex(product => product.product._id.toString() === pid);
 
             if (productIndex === -1) {
                 throw new Error('Product not found in cart');

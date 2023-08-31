@@ -12,7 +12,7 @@ class productsManager {
             const priceOrder = price === "true" ? 1 : -1;
 
             const stockFilter = query === "true" ? { stock: { $gt: 0 } } : {};
-            console.log(stockFilter)
+
             const paginatedProducts = await this.products.paginate(
                 stockFilter,
                 {

@@ -8,7 +8,11 @@
         <li>{{this.price}}</li>
         <li>{{this.stock}}</li>
         <li>{{this.code}}</li>
-        <li><button onclick="addToCart('{{this._id}}')">Agregar al Carrito</button></li>
+        <li>
+            <form action="/api/carts/64f0e25a4152a0bc60f41628/products/{{this._id}}" method="POST">
+                <button type="submit">Agregar al Carrito</button>
+            </form>
+        </li>
         <br><br>
         {{/each}}
     </ul>
