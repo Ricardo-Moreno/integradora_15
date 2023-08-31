@@ -19,16 +19,18 @@ const socket = io();
 
 const input = document.getElementById('textbox');
 const log = document.getElementById('log');
-input.addEventListener('keyup', evt => {
-    if (evt.key === "Enter") {
-        socket.emit('message2', input.value);
-        input.value = ""
+
+input.addEventListener('keyup', (evt) => {
+    if (evt.key === 'Enter') {
+        const chatContent = input.value;
+        const user = chatContent.split(' ')[0]; // Extrae el ID del usuario
+        const message = chatContent.substr(user.length + 7); // Extrae el mensaje
+        socket.emit('message', { user, message });
+        input.value = '';
     }
-})
-socket.on('log', data => {
-    let logs = '';
-    data.logs.forEach(log => {
-        logs += `${log.socketid} dice: ${log.message}<br/>`
-    })
-    log.innerHTML = logs;
-})
+});
+
+socket.on('message', (data) => {
+    const message = `${data.user} dice: ${data.message}<br>`;
+    log.innerHTML += message;
+});

@@ -7,11 +7,22 @@ class productsManager {
         this.products = products;
     }
 
-    async getAllProducts() {
+    async getAllProducts(page, limit, query, price) {
         try {
-            const products = await this.products.find({});
+            const priceOrder = price === "true" ? 1 : -1;
 
-            return products;
+            const stockFilter = query === "true" ? { stock: { $gt: 0 } } : {};
+            console.log(stockFilter)
+            const paginatedProducts = await this.products.paginate(
+                stockFilter,
+                {
+                    limit: limit || 4,
+                    page: page || 1,
+                    lean: true,
+                    sort: { price: priceOrder }
+                }
+            );
+            return paginatedProducts;
         } catch (error) {
             console.log(
                 "🚀 ~ file: products.manager.js:18 ~ ProductManager ~ getAllProducts ~ error:",
@@ -19,6 +30,8 @@ class productsManager {
             );
         }
     }
+
+
 
     async getProductById(id) {
         try {
@@ -37,7 +50,7 @@ class productsManager {
     async createProduct(bodyProduct) {
         try {
 
-            const newProduct = await this.products.create(bodyProduct);
+            const newProduct = await this.products.insertMany(bodyProduct);
 
             return newProduct;
         } catch (error) {

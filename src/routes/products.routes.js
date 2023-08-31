@@ -8,10 +8,20 @@ const productsManager = new ProductsManager();
 
 
 router.get("/", async (req, res) => {
-    const products = await productsManager.getAllProducts();
+    const { page, limit, query, price } = req.query;
 
-    res.json({ message: "get all method", products });
+
+    ;
+
+    try {
+        const products = await productsManager.getAllProducts(page, limit, query, price);
+
+        res.render("products", { products });
+    } catch (error) {
+        res.status(500).json({ error: "Internal server error" });
+    }
 });
+
 
 router.get("/:id", async (req, res) => {
     const id = req.params.id;
@@ -25,9 +35,9 @@ router.post("/", async (req, res) => {
         "🚀 ~ file: products.routes.js:28 ~ router.post ~ bodyProducts:",
         bodyProduct
     );
-    const newProduct = await productsManager.createproduct(bodyProduct);
+    const newProduct = await productsManager.createProduct(bodyProduct);
 
-    res.json({ message: "get all method", player: newProduct });
+    res.json({ message: "get all method", cart: newProduct });
 });
 
 router.put("/:id", async (req, res) => {
