@@ -1,22 +1,33 @@
 <div>
     <div>
-    <h2>Products</h2>
-    <ul>
-        {{#each products.docs}}
-        <li>{{this.title}}</li>
-        <li>{{this.description}}</li>
-        <li>{{this.price}}</li>
-        <li>{{this.stock}}</li>
-        <li>{{this.code}}</li>
-        <li>
-            <form action="/api/carts/64f0e25a4152a0bc60f41628/products/{{this._id}}" method="POST">
-                <button type="submit">Agregar al Carrito</button>
-            </form>
-        </li>
-        <br><br>
-        {{/each}}
-    </ul>
-</div>
+        <h1>Tu perfil (sin datos sensibles)</h1>
+        <p>{{user.name}}</p>
+        <p>{{user.email}}</p>
+        <p>{{user.age}}</p>
+        {{#if user.isAdmin}}
+        <p style="color: green;">Admin</p>
+        {{else}}
+        <p style="color: red;">Usuario</p>
+        {{/if}}
+    </div>
+    <div>
+        <h2>Products</h2>
+        <ul>
+            {{#each products.docs}}
+            <li>{{this.title}}</li>
+            <li>{{this.description}}</li>
+            <li>{{this.price}}</li>
+            <li>{{this.stock}}</li>
+            <li>{{this.code}}</li>
+            <li>
+                <form action="/api/carts/64f0e25a4152a0bc60f41628/products/{{this._id}}" method="POST">
+                    <button type="submit">Agregar al Carrito</button>
+                </form>
+            </li>
+            <br><br>
+            {{/each}}
+        </ul>
+    </div>
     <div>
         {{#if products.hasPrevPage}}
         <a href="/products?page={{products.prevPage}}&query={{query}}">Anterior</a>
@@ -26,4 +37,5 @@
         <a href="/products?page={{products.nextPage}}&query={{query}}">Siguiente</a>
         {{/if}}
     </div>
+    <a href="/api/sessions/logout"><button>Salir</button></a>
 </div>

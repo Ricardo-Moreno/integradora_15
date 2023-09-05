@@ -4,11 +4,13 @@ import handlebars from "express-handlebars";
 import mongoose from 'mongoose';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
+
 import cartsRoutes from './routes/carts.routes.js';
 import productsRoutes from './routes/products.routes.js';
-// import messageRoutes from './routes/message.routes.js';
-// import { setupSocket } from './socket.js';
-
+import sessionsRoutes from './routes/sessions.routes.js';
+import viewsRoutes from './routes/views.routes.js'
 
 dotenv.config();
 const app = express();
@@ -31,13 +33,23 @@ app.set('views', __dirname + '/views')
 app.set('view engine', 'handlebars');
 
 
-// app.use('/', messageRoutes);
-app.use('/api/carts', cartsRoutes);
+app.use(session({
+    store: new MongoStore({
+        mongoUrl: process.env.MONGO,
+        ttl: 3600
+    }),
+    secret: "CoderSecretSHHHHH",
+    resave: false,
+    saveUninitialized: false
+}));
+
+
+app.use('/', viewsRoutes);
+app.use('/api/sessions', sessionsRoutes);
 app.use('/products', productsRoutes);
+app.use('/api/carts', cartsRoutes);
+
 
 const server = app.listen(PORT, () => {
     console.log('Servidor Funcionando en el Puerto ' + PORT);
 });
-
-// Configura los eventos de Socket.io usando la función setupSocket
-// setupSocket(server);

@@ -5,18 +5,22 @@ import ProductsManager from "../dao/productsManager.js";
 const router = Router();
 const productsManager = new ProductsManager();
 
+const privateAccess = (req, res, next) => {
+    if (!req.session.user) return res.redirect('/login');
+    next();
+}
 
-
-router.get("/", async (req, res) => {
+router.get("/", privateAccess, async (req, res) => {
     const { page, limit, query, price } = req.query;
 
-
-    ;
 
     try {
         const products = await productsManager.getAllProducts(page, limit, query, price);
 
-        res.render("products", { products });
+        res.render("products", {
+            user: req.session.user, // Información del usuario
+            products: products // Productos
+        });
     } catch (error) {
         res.status(500).json({ error: "Internal server error" });
     }
